@@ -1,54 +1,91 @@
-# React + TypeScript + Vite
+# Wizybot - Frontend Technical Assessment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a technical assessment submission for the **Frontend Developer Position** at Wizybot. The task was to build a chat interface that mimics the Wizybot AI Customer Support and Sales Agent UI/UX experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Technologies Used
 
-## Expanding the ESLint configuration
+- **React**: Component-based architecture.
+- **Vite**: Fast development server setup.
+- **TypeScript**: Type safety and improved code maintainability.
+- **Tailwind CSS**: Utility-first styling.
+- **React Icons**: For visual enhancements without external libraries.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 💬 Features Implemented
+
+1. ✅ Initial message from the AI agent ("Hello there! Do you need any help?") displayed on the left.
+2. ✅ Message input field with keyboard and button support.
+3. ✅ User messages shown in bubbles on the right side.
+4. ✅ Typing indicator animation shown for 3 seconds after each user message.
+5. ✅ AI-generated response shown after the typing indicator disappears.
+6. ✅ All messages are listed chronologically.
+7. ✅ When the user types `"I want product recommendations"`, the bot fetches products from the Wizybot API and displays them in a **product recommendation carousel** with:
+   - Product name
+   - Image
+   - Price
+   - Link to product page
+
+---
+
+## 🚀 How to Run the Project
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/wizybot-chat-interface.git
+cd wizybot-chat-interface
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
 ```
+
+### 3. Start the development server
+
+```bash
+npm run dev
+```
+
+Open http://localhost:5173 in your browser (or the port shown in the terminal).
+
+## 🌐 API Used
+
+The product data used in the recommendation feature is fetched from:
+
+```bash
+GET https://api.wizybot.com/products/demo-product-list
+```
+
+More info about this endpoint can be found in Annex 1 of the technical assessment document.
+
+## 🧪 Testing & Debugging
+
+- Open the browser console to see logs during product fetching or error handling.
+- Try sending different messages to test the flow.
+- Sending "I want product recommendations" will trigger the product carousel.
+
+## 🧱 Folder Structure
+
+```bash
+src/
+├── assets/                  # Static images
+├── components/              # Atomic Design pattern: atoms, molecules, organisms
+├── hooks/                   # Custom hooks (e.g., useChat)
+├── types/                   # TypeScript interfaces and types
+├── App.tsx
+└── main.tsx
+```
+
+## ✨ Notes
+
+- This project follows good coding practices including separation of concerns, reusable components, and clean TypeScript interfaces.
+- It is ready for deployment and serves as a solid base for further integrations with backend services.
+
+## 📬 Contact
+
+If you have any questions or need clarification, feel free to reach out via email or LinkedIn.
