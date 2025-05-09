@@ -42,12 +42,11 @@ export function useChat() {
         // Seleccionar un producto al azar
         const apiProduct = products[Math.floor(Math.random() * products.length)];
 
-        // Adaptar a tipo `Product`
         const adaptedProduct: Product = {
           id: apiProduct.id,
           name: apiProduct.displayTitle,
           description: apiProduct.embeddingText,
-          price: 499.99, // Simular precio (no viene en la API)
+          price: 49.99,
           imageUrl: apiProduct.imageUrl.trim(),
           url: apiProduct.url?.trim(),
         };
