@@ -10,6 +10,8 @@ export function useChat() {
     },
   ]);
 
+  const [isTyping, setIsTyping] = useState(false);
+
   const addMessage = (text: string) => {
     const now = new Date();
     const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -22,12 +24,11 @@ export function useChat() {
       fromUser: true,
     };
 
-    // Agregar el mensaje del usuario
     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
-    // Lógica de respuesta automática con delay
     if (text !== "I want product recommendations") {
-      // Usamos setTimeout para agregar el mensaje con un retraso de 2.5 segundos
+      setIsTyping(true); // Mostrar typing indicator
+
       setTimeout(() => {
         const autoResponse: ChatMessage = {
           message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -36,9 +37,10 @@ export function useChat() {
         };
 
         setMessages((prevMessages) => [...prevMessages, autoResponse]);
-      }, 2500); // 2500 milisegundos = 2.5 segundos
+        setIsTyping(false); // Quitar typing indicator
+      }, 2500);
     }
   };
 
-  return { messages, addMessage };
+  return { messages, addMessage, isTyping };
 }
