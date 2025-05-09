@@ -35,8 +35,8 @@ This is a technical assessment submission for the **Frontend Developer Position*
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/wizybot-chat-interface.git
-cd wizybot-chat-interface
+git clone https://github.com/Nicolas99r/chat-interview
+cd chat-interview
 ```
 
 ### 2. Install dependencies
