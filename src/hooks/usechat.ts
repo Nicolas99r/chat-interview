@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ChatMessage } from "../types/chat";
+import type { Product } from "../types/product";
 
 export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -12,32 +13,87 @@ export function useChat() {
 
   const [isTyping, setIsTyping] = useState(false);
 
-  const addMessage = (text: string) => {
+  const addMessage = async (text: string) => {
     const now = new Date();
-    const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const formattedDate = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    const formattedTime = now.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const formattedDate = now.toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+    });
 
     // Mensaje del usuario
-    const newMessage: ChatMessage = {
+    const userMessage = {
       message: text,
       time: `${formattedTime} | ${formattedDate}`,
       fromUser: true,
     };
+    setMessages((prev) => [...prev, userMessage]);
 
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    if (text.trim().toLowerCase() === "i want product recommendations") {
+      setIsTyping(true);
 
-    if (text !== "I want product recommendations") {
-      setIsTyping(true); // Mostrar typing indicator
+      try {
+        const res = await fetch("https://api.wizybot.com/products/demo-product-list ");
+        const products = await res.json();
 
+        // Seleccionar un producto al azar
+        const apiProduct = products[Math.floor(Math.random() * products.length)];
+
+        // Adaptar a tipo `Product`
+        const adaptedProduct: Product = {
+          id: apiProduct.id,
+          name: apiProduct.displayTitle,
+          description: apiProduct.embeddingText,
+          price: 499.99, // Simular precio (no viene en la API)
+          imageUrl: apiProduct.imageUrl.trim(),
+          url: apiProduct.url?.trim(),
+        };
+
+        // Mensaje del bot
+        const botMessage = {
+          message: "Sure! Here are some products you might like:",
+          time: `${formattedTime} | ${formattedDate}`,
+          fromUser: false,
+        };
+        setMessages((prev) => [...prev, botMessage]);
+
+        setTimeout(() => {
+          setMessages((prev) => [
+            ...prev,
+            {
+              message: "product_card_placeholder",
+              time: `${formattedTime} | ${formattedDate}`,
+              fromUser: false,
+              product: adaptedProduct,
+            },
+          ]);
+        }, 1500);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setMessages((prev) => [
+          ...prev,
+          {
+            message: "Sorry, I couldn't load the products right now.",
+            time: `${formattedTime} | ${formattedDate}`,
+            fromUser: false,
+          },
+        ]);
+      } finally {
+        setIsTyping(false);
+      }
+    } else {
+      setIsTyping(true);
       setTimeout(() => {
-        const autoResponse: ChatMessage = {
+        const autoResponse = {
           message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
           time: `${formattedTime} | ${formattedDate}`,
           fromUser: false,
         };
-
-        setMessages((prevMessages) => [...prevMessages, autoResponse]);
-        setIsTyping(false); // Quitar typing indicator
+        setMessages((prev) => [...prev, autoResponse]);
+        setIsTyping(false);
       }, 2500);
     }
   };
